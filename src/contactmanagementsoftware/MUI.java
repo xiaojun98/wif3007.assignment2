@@ -862,7 +862,8 @@ public class MUI extends javax.swing.JFrame {
         else
             return true;
     }
-        
+    
+    // Add Contact
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         dflag = true;
         String Name = name.getText();
