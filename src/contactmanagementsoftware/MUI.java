@@ -33,6 +33,7 @@ public class MUI extends javax.swing.JFrame {
     private boolean dflag;
     private String op;
     private String str;
+    private State state;
     
     public void setMg(MUI mg) {
         this.mg = mg;
@@ -40,6 +41,10 @@ public class MUI extends javax.swing.JFrame {
 
     public void setA(ArrayList<ArrayList<Acquaintances>> a) {
         this.a = a;
+    }
+    
+    public void setState(State state) {
+        this.state = state;
     }
     
     public void setDescription(){
@@ -171,6 +176,7 @@ public class MUI extends javax.swing.JFrame {
         DefaultTableModel model = new DefaultTableModel(null, columnNames);
         jXTable1.setModel(model);
         setUpTableData();
+        state = State.InitialState(this);
     }
 
     public final void setUpTableData() {
@@ -193,6 +199,56 @@ public class MUI extends javax.swing.JFrame {
         }
         jXTable1.setModel(tableModel);
         tableModel.fireTableDataChanged();
+        jXTable1.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            @Override
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                if (!evt.getValueIsAdjusting()) {
+                    state.entrySelected();
+                }
+            }
+        });
+    }
+    
+    public void proceedToAdd() {
+        jPanel1.setVisible(false);
+        jPanel3.setVisible(true);
+        x = jList1.getSelectedIndex();
+        flag = true;
+        dflag = false;
+        setDescription();
+    }
+    
+    public void proceedToDelete() {
+        int n = JOptionPane.showConfirmDialog(
+            mg,
+            "Are you sure you want to delete this?",
+            "Confirm",
+            JOptionPane.YES_NO_OPTION);
+        if(n==0){
+            a.get(jList1.getSelectedIndex()).remove(jXTable1.getSelectedRow());
+            JOptionPane.showMessageDialog(mg, "Successfully Deleted");
+            mg.setUpTableData();
+        }
+    }
+    
+    public void proceedToEdit() {
+        num = jXTable1.getSelectedRow();
+        flag = false;
+        dflag = false;
+        x = jList1.getSelectedIndex();
+        setDescription();
+        jPanel1.setVisible(false);
+        jPanel3.setVisible(true);
+    }
+    
+    public void proceedToView() {
+        num = jXTable1.getSelectedRow();
+        flag = false;
+        x = jList1.getSelectedIndex();
+        jPanel1.setVisible(false);
+        jPanel3.setVisible(true);
+        dflag = true;
+        setDescription();
     }
 
     /**
@@ -589,40 +645,11 @@ public class MUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int index = jList1.getSelectedIndex();
-        if(index<0){
-            JOptionPane.showMessageDialog(mg, "Select a category!");
-            return;
-        }
-        jPanel1.setVisible(false);
-        jPanel3.setVisible(true);
-        x = index;
-        flag = true;
-        dflag = false;
-        setDescription();
+        state.jButton1ActionPerformed(evt);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int index = jList1.getSelectedIndex();
-        if(index<0){
-            JOptionPane.showMessageDialog(mg, "Select a category!");
-            return;
-        }
-        int tindex = jXTable1.getSelectedRow();
-        if(tindex < 0){
-            JOptionPane.showMessageDialog(mg, "Select an entry!");
-            return;
-        }
-        int n = JOptionPane.showConfirmDialog(
-            mg,
-            "Are you sure you want to delete this?",
-            "Confirm",
-            JOptionPane.YES_NO_OPTION);
-        if(n==0){
-            a.get(index).remove(tindex);
-            JOptionPane.showMessageDialog(mg, "Successfully Deleted");
-            mg.setUpTableData();
-        }
+        state.jButton2ActionPerformed(evt);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -649,46 +676,17 @@ public class MUI extends javax.swing.JFrame {
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         setUpTableData();
+        if (!evt.getValueIsAdjusting()) {
+            state.categorySelected();
+        }
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        int index = jList1.getSelectedIndex();
-        if(index<0){
-            JOptionPane.showMessageDialog(mg, "Select a category!");
-            return;
-        }
-        int tindex = jXTable1.getSelectedRow();
-        if(tindex < 0){
-            JOptionPane.showMessageDialog(mg, "Select an entry!");
-            return;
-        }
-        num = tindex;
-        flag = false;
-        dflag = false;
-        x = index;
-        setDescription();
-        jPanel1.setVisible(false);
-        jPanel3.setVisible(true);
+        state.jButton5ActionPerformed(evt);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        int index = jList1.getSelectedIndex();
-        if(index<0){
-            JOptionPane.showMessageDialog(mg, "Select a category!");
-            return;
-        }
-        int tindex = jXTable1.getSelectedRow();
-        if(tindex < 0){
-            JOptionPane.showMessageDialog(mg, "Select an entry!");
-            return;
-        }
-        num = tindex;
-        flag = false;
-        x = index;
-        jPanel1.setVisible(false);
-        jPanel3.setVisible(true);
-        dflag = true;
-        setDescription();
+        state.jButton6ActionPerformed(evt);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     public void runn(){
@@ -1000,6 +998,7 @@ public class MUI extends javax.swing.JFrame {
         jPanel1.setVisible(true);
         jPanel3.setVisible(false);
         mg.setUpTableData();
+        state.categorySelected();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
