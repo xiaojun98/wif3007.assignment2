@@ -16,5 +16,5 @@ public interface AcquaintancesAbstractFactory {
      * @param type type of acquaintance, where 0 = PersonalFriends, 1 = Relatives, 2 = ProfessionalFriends, 3 = CasualAcquaintances
      * @return Acquaintances
      */
-    Acquaintances createAcquaintance(int type);
+    Acquaintances createAcquaintance(String type);
 }

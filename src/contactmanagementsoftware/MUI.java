@@ -25,9 +25,10 @@ public class MUI extends javax.swing.JFrame {
     /**
      * Creates new form MUI
      */
-    private MUI mg;
+    private static volatile MUI mg;
+    // private AcquaintancesAbstractFactory factory;
     private ArrayList<ArrayList<Acquaintances>> acquaintanceList;
-//    private ArrayList<ArrayList<Acquaintances>> temp;
+    private ArrayList<ArrayList<Acquaintances>> temp;
     private int x;
     private int num;
     private boolean flag;
@@ -66,6 +67,17 @@ public class MUI extends javax.swing.JFrame {
     }
     
     
+    public static MUI getInstance() {
+        if(mg == null) {
+            synchronized (MUI.class){
+                if(mg == null)
+                    mg = new MUI();
+            }
+        }
+        return mg;
+    }
+    
+    // wont be use since singleton exist
     public void setMg(MUI mg) {
         this.mg = mg;
     }
@@ -928,100 +940,28 @@ public class MUI extends javax.swing.JFrame {
             return;
         }
         
+        Command command;
         switch(x){
             case 0: //perF
-                if(One.isEmpty() || One.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                if(Two.isEmpty() || Two.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                if(!validDate(Three)){
-                    return;
-                }
-                if(Three.isEmpty() || Three.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                PersonalFriends perF;
-                if(flag)
-                    perF = new PersonalFriends();
-                else
-                    perF = (PersonalFriends)acquaintanceList.get(x).get(num);
-                perF.setName(Name);
-                perF.setMobileNo(Mobile);
-                perF.setEmail(Email);
-                perF.setEvents(One);
-                perF.setAContext(Two);
-                perF.setADate(Three);
-                if(flag)
-                    acquaintanceList.get(x).add(perF);
-                    //this.a.get(x).add(perF);
+                command = new PersonalFriendsInsertCommand(flag? -1 : num, acquaintanceList.get(x), Name, Email, Mobile, One, Two, Three);
                 break;
             case 1: //rel
-                if(One.isEmpty() || One.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                if(!validDate(One)){
-                    return;
-                }
-                if(Two.isEmpty() || Two.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                if(!validDate(Two)){
-                    return;
-                }
-                Relatives rel;
-                if(flag)
-                    rel = new Relatives();
-                else
-                    rel = (Relatives)acquaintanceList.get(x).get(num);
-                rel.newAcquaintances(Name, Email, Mobile, One, Two, Three);
-                if(flag)
-                    acquaintanceList.get(x).add(rel);
+                command = new RelativesInsertCommand(flag? -1 : num, acquaintanceList.get(x), Name, Email, Mobile, One, Two);
                 break;
             case 2: //proF
-                if(One.isEmpty() || One.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                ProfessionalFriends proF;
-                if(flag)
-                    proF = new ProfessionalFriends();
-                else
-                    proF = (ProfessionalFriends)acquaintanceList.get(x).get(num);
-                proF.newAcquaintances(Name, Email, Mobile, One, Two, Three);
-                if(flag)
-                    acquaintanceList.get(x).add(proF);
+                command = new ProfessionalFriendsInsertCommand(flag? -1 : num, acquaintanceList.get(x), Name, Email, Mobile, One);
                 break;
-                case 3: //ca
-                if(One.isEmpty() || One.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                if(Two.isEmpty() || Two.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                if(Three.isEmpty() || Three.length() > 300){
-                    JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
-                    return;
-                }
-                CasualAcquaintances ca;
-                if(flag)
-                    ca = new CasualAcquaintances();
-                else
-                    ca = (CasualAcquaintances)acquaintanceList.get(x).get(num);
-                ca.newAcquaintances(Name, Email, Mobile, One, Two, Three);
-                if(flag)
-                    acquaintanceList.get(x).add(ca);
+            case 3: //ca
+                command = new CasualAcquaintancesInsertCommand(flag? -1 : num, acquaintanceList.get(x), Name, Email, Mobile, One, Two, Three);
                 break;
             default:
+                command = new AcquaintancesInsertCommand();
                 break;
+        }
+        try {
+            command.execute();
+        } catch (Exception e) {
+            return;
         }
         jPanel1.setVisible(true);
         jPanel3.setVisible(false);
