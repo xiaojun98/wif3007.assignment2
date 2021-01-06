@@ -35,6 +35,36 @@ public class MUI extends javax.swing.JFrame {
     private String op;
     private String str;
     private State state;
+     // implementation of singleton
+    private static volatile MUI single_occurrence = null; 
+    // volatile- reduce the overhead of calling syncronized method
+   
+    private MUI(){
+        // initialize the components
+        initComponents(); 
+        // center align frame
+        setLocationRelativeTo(null);
+        // initialize table
+        String[] columnNames = {"S.No", "Name", "Mobile"," Email"};
+        DefaultTableModel model = new DefaultTableModel(null, columnNames);
+        jXTable1.setModel(model);
+        setUpTableData();
+        state = State.InitialState(this);
+    }
+    
+    public static MUI getOccurrence(){
+        if (single_occurrence == null){
+            // To make thread safe
+            synchronized (MUI.class){
+                // check again as multiple threads 
+                // can reach above step
+                if(single_occurrence == null)
+                    single_occurrence = new MUI();
+            }
+        }
+        return single_occurrence;
+    }
+    
     
     public void setMg(MUI mg) {
         this.mg = mg;
@@ -169,15 +199,6 @@ public class MUI extends javax.swing.JFrame {
             jButton11.setVisible(false);
             jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Display Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DialogInput", 1, 16)));
         }
-    }
-    
-    public MUI() {
-        initComponents();
-        String[] columnNames = {"S.No", "Name", "Mobile"," Email"};
-        DefaultTableModel model = new DefaultTableModel(null, columnNames);
-        jXTable1.setModel(model);
-        setUpTableData();
-        state = State.InitialState(this);
     }
 
     public final void setUpTableData() {
