@@ -25,9 +25,15 @@ public class MUI extends javax.swing.JFrame {
     /**
      * Creates new form MUI
      */
+<<<<<<< HEAD
     private static volatile MUI mg;
     // private AcquaintancesAbstractFactory factory;
     private ArrayList<ArrayList<Acquaintances>> acquaintanceList;
+=======
+    private static MUI mg;
+    private AcquaintancesAbstractFactory factory;
+    private ArrayList<ArrayList<Acquaintances>> a;
+>>>>>>> Correction on factory method + Command Design Pattern
     private ArrayList<ArrayList<Acquaintances>> temp;
     private int x;
     private int num;
@@ -212,6 +218,19 @@ public class MUI extends javax.swing.JFrame {
             jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Display Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DialogInput", 1, 16)));
         }
     }
+<<<<<<< HEAD
+=======
+    
+    private MUI() {
+        initComponents();
+        String[] columnNames = {"S.No", "Name", "Mobile"," Email"};
+        DefaultTableModel model = new DefaultTableModel(null, columnNames);
+        jXTable1.setModel(model);
+        setUpTableData();
+        state = State.InitialState(this);
+        factory = AcquaintancesFactory.getInstance();
+    }
+>>>>>>> Correction on factory method + Command Design Pattern
 
     public final void setUpTableData() {
         DefaultTableModel tableModel = (DefaultTableModel) jXTable1.getModel();
@@ -943,6 +962,7 @@ public class MUI extends javax.swing.JFrame {
         Command command;
         switch(x){
             case 0: //perF
+<<<<<<< HEAD
                 command = new PersonalFriendsInsertCommand(flag? -1 : num, acquaintanceList.get(x), Name, Email, Mobile, One, Two, Three);
                 break;
             case 1: //rel
@@ -953,6 +973,18 @@ public class MUI extends javax.swing.JFrame {
                 break;
             case 3: //ca
                 command = new CasualAcquaintancesInsertCommand(flag? -1 : num, acquaintanceList.get(x), Name, Email, Mobile, One, Two, Three);
+=======
+                command = new PersonalFriendsInsertCommand(flag? -1 : num, a.get(x), Name, Email, Mobile, One, Two, Three);
+                break;
+            case 1: //rel
+                command = new RelativesInsertCommand(flag? -1 : num, a.get(x), Name, Email, Mobile, One, Two);
+                break;
+            case 2: //proF
+                command = new ProfessionalFriendsInsertCommand(flag? -1 : num, a.get(x), Name, Email, Mobile, One);
+                break;
+            case 3: //ca
+                command = new CasualAcquaintancesInsertCommand(flag? -1 : num, a.get(x), Name, Email, Mobile, One, Two, Three);
+>>>>>>> Correction on factory method + Command Design Pattern
                 break;
             default:
                 command = new AcquaintancesInsertCommand();
