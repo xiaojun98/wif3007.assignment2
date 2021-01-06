@@ -864,35 +864,39 @@ public class MUI extends javax.swing.JFrame {
     // Add Contact
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         dflag = true;
+        
         String Name = name.getText();
+        String Mobile = mobile.getText();
+        String Email = email.getText();
+        String One = one.getText();
+        String Two = two.getText();
+        String Three = three.getText();
+        
         if(Name.isEmpty()){
             JOptionPane.showMessageDialog(mg, "Enter a name");
             return;
         }
-        String Mobile = mobile.getText();
+        
         if(!MobileNoChecker(Mobile)){
             JOptionPane.showMessageDialog(mg, "Enter a valid mobile number (6-15 digits)");
             return;
         }
-        String Email = email.getText();
+        
         if(!Email.contains("@")){
             JOptionPane.showMessageDialog(mg, "Enter a valid email");
             return;
         }
-        String One,Two,Three;
+        
         switch(x){
             case 0: //perF
-                One = one.getText();
                 if(One.isEmpty() || One.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
                 }
-                Two = two.getText();
                 if(Two.isEmpty() || Two.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
                 }
-                Three = three.getText();
                 if(!validDate(Three)){
                     return;
                 }
@@ -905,18 +909,12 @@ public class MUI extends javax.swing.JFrame {
                     perF = new PersonalFriends();
                 else
                     perF = (PersonalFriends)a.get(x).get(num);
-                perF.setName(Name);
-                perF.setMobileNo(Mobile);
-                perF.setEmail(Email);
-                perF.setEvents(One);
-                perF.setAContext(Two);
-                perF.setADate(Three);
+                perF.newAcquaintances(Name, Email, Mobile, One, Two, Three);
                 if(flag)
                     a.get(x).add(perF);
                     //this.a.get(x).add(perF);
                 break;
             case 1: //rel
-                One = one.getText();
                 if(One.isEmpty() || One.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
@@ -924,7 +922,6 @@ public class MUI extends javax.swing.JFrame {
                 if(!validDate(One)){
                     return;
                 }
-                Two = two.getText();
                 if(Two.isEmpty() || Two.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
@@ -937,16 +934,11 @@ public class MUI extends javax.swing.JFrame {
                     rel = new Relatives();
                 else
                     rel = (Relatives)a.get(x).get(num);
-                rel.setName(Name);
-                rel.setMobileNo(Mobile);
-                rel.setEmail(Email);
-                rel.setBDate(One);
-                rel.setLDate(Two);
+                rel.newAcquaintances(Name, Email, Mobile, One, Two, Three);
                 if(flag)
                     a.get(x).add(rel);
                 break;
             case 2: //proF
-                One = one.getText();
                 if(One.isEmpty() || One.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
@@ -956,25 +948,19 @@ public class MUI extends javax.swing.JFrame {
                     proF = new ProfessionalFriends();
                 else
                     proF = (ProfessionalFriends)a.get(x).get(num);
-                proF.setName(Name);
-                proF.setMobileNo(Mobile);
-                proF.setEmail(Email);
-                proF.setCommonInterests(One);
+                proF.newAcquaintances(Name, Email, Mobile, One, Two, Three);
                 if(flag)
                     a.get(x).add(proF);
                 break;
                 case 3: //ca
-                One = one.getText();
                 if(One.isEmpty() || One.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
                 }
-                Two = two.getText();
                 if(Two.isEmpty() || Two.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
                 }
-                Three = three.getText();
                 if(Three.isEmpty() || Three.length() > 300){
                     JOptionPane.showMessageDialog(mg, "Enter a valid value ( 1 to 300 chars)");
                     return;
@@ -984,12 +970,7 @@ public class MUI extends javax.swing.JFrame {
                     ca = new CasualAcquaintances();
                 else
                     ca = (CasualAcquaintances)a.get(x).get(num);
-                ca.setName(Name);
-                ca.setMobileNo(Mobile);
-                ca.setEmail(Email);
-                ca.setWhenWhere(One);
-                ca.setCircumstances(Two);
-                ca.setOtherInfo(Three);
+                ca.newAcquaintances(Name, Email, Mobile, One, Two, Three);
                 if(flag)
                     a.get(x).add(ca);
                 break;
