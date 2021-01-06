@@ -13,13 +13,16 @@ public class ContactManagementSoftware implements Serializable{
     private static ArrayList<Acquaintances> ca1 = new ArrayList<>();
     
     public static void main(String[] args) {
-        mg = new MUI();
+        MUI mg = MUI.getOccurrence();
+        // mg = new MUI();
         a.add(perF1);
         a.add(rel1);
         a.add(proF1);
         a.add(ca1);
         mg.setMg(mg);
         mg.setA(a);
+        // set the size
+        mg.setSize(600,600);
         mg.setVisible(true);
     }
 }
