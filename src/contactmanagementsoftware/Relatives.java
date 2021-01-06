@@ -59,4 +59,10 @@ public class Relatives extends Acquaintances implements Serializable{
     public void setLDate(String LDate) {
         this.LDate = LDate;
     }
+    
+    @Override
+    public void checkExtra(String one, String two, String three){
+        this.setBDate(one);
+        this.setLDate(two);
+    }
 }
