@@ -84,4 +84,11 @@ public class CasualAcquaintances extends Acquaintances implements Serializable{
             setOtherInfo(reader.nextLine());
         }
     }
+    
+    @Override
+    public void checkExtra(String one, String two, String three){
+        this.setWhenWhere(one);
+        this.setCircumstances(two);
+        this.setOtherInfo(three);
+    }
 }
