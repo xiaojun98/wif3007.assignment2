@@ -779,23 +779,29 @@ public class MUI extends javax.swing.JFrame {
                 
                 //to check if the data existed or not
                 for(int i=0; i<4 ; i++){
-                    DataIterator dataIterator = new DataIterator(acquaintanceList.get(i));
+                    DataIterator newDataIterator = new DataIterator(fromFileData.get(i));
+//                    DataIterator dataIterator = new DataIterator(acquaintanceList.get(i));
                     System.out.println("1:" + acquaintanceList.get(i).size());
                     System.out.println("1:" + fromFileData.get(i).size());
                     
-                    while (dataIterator.hasNext()){
+                    while (newDataIterator.hasNext()){
+//                    while (dataIterator.hasNext()){
                         boolean exists = false;
-                        Acquaintances current = dataIterator.next();
+                        Acquaintances current = (Acquaintances)newDataIterator.next();
+//                        Acquaintances current = (Acquaintances)dataIterator.next();
                         Acquaintances temp = null;
-                        DataIterator newDataIterator = new DataIterator(fromFileData.get(i));
-                        while(newDataIterator.hasNext()){
-                            temp = newDataIterator.next();
+                        DataIterator dataIterator = new DataIterator(acquaintanceList.get(i));
+//                        DataIterator newDataIterator = new DataIterator(fromFileData.get(i));
+                        while (dataIterator.hasNext()){
+//                        while(newDataIterator.hasNext()){
+//                            temp = (Acquaintances)newDataIterator.next();
+                            temp = (Acquaintances)dataIterator.next();
                             if(temp.equals(current)){
                                 exists = true;
                             }
                         }
                         if(!exists){
-                            acquaintanceList.get(i).add(temp);
+                            acquaintanceList.get(i).add(current);
                         }
                     }
                     System.out.println("2:" + acquaintanceList.get(i).size());
