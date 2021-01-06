@@ -80,4 +80,11 @@ public class PersonalFriends extends Acquaintances implements Serializable{
             setEvents(reader.nextLine());
         }
     }
+    
+    @Override
+    public void checkExtra(String one, String two, String three){
+        this.setEvents(one);
+        this.setAContext(two);
+        this.setADate(three);
+    }
 }

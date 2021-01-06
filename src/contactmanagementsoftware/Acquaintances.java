@@ -67,4 +67,17 @@ public class Acquaintances implements Serializable{
             this.setEmail(reader.next());
         }
     }
+    
+    //template method
+    final void newAcquaintances(String name, String email, String mobile, String one, String two, String three){
+        this.setName(name);
+        this.setEmail(email);
+        this.setMobileNo(mobile);
+        this.checkExtra(one, two, three);
+    }
+    
+    //template hook 
+    public void checkExtra(String one, String two, String three){
+        
+    }
 }

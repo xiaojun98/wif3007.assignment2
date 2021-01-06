@@ -55,4 +55,9 @@ public class ProfessionalFriends extends Acquaintances implements Serializable{
             setCommonInterests(reader.nextLine());
         }
     }
+    
+    @Override
+    public void checkExtra(String one, String two, String three){
+        this.setCommonInterests(one);
+    }
 }
