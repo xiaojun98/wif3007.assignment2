@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.util.Iterator;
 
 /**
  *
@@ -25,8 +26,8 @@ public class MUI extends javax.swing.JFrame {
      * Creates new form MUI
      */
     private MUI mg;
-    private ArrayList<ArrayList<Acquaintances>> a;
-    private ArrayList<ArrayList<Acquaintances>> temp;
+    private ArrayList<ArrayList<Acquaintances>> acquaintanceList;
+//    private ArrayList<ArrayList<Acquaintances>> temp;
     private int x;
     private int num;
     private boolean flag;
@@ -40,7 +41,7 @@ public class MUI extends javax.swing.JFrame {
     }
 
     public void setA(ArrayList<ArrayList<Acquaintances>> a) {
-        this.a = a;
+        this.acquaintanceList = a;
     }
     
     public void setState(State state) {
@@ -68,7 +69,7 @@ public class MUI extends javax.swing.JFrame {
             op = "Edit";
         if(!flag){
             jButton10.setText("Save");
-            Acquaintances e = a.get(x).get(num);            
+            Acquaintances e = acquaintanceList.get(x).get(num);            
             name.setText(e.getName());
             mobile.setText(e.getMobileNo());
             email.setText(e.getEmail());
@@ -184,7 +185,7 @@ public class MUI extends javax.swing.JFrame {
         tableModel.setRowCount(0);
         ArrayList<Acquaintances> list;
         try{        
-            list = a.get(jList1.getSelectedIndex());
+            list = acquaintanceList.get(jList1.getSelectedIndex());
         }
         catch(Exception e){
             return;
@@ -225,7 +226,7 @@ public class MUI extends javax.swing.JFrame {
             "Confirm",
             JOptionPane.YES_NO_OPTION);
         if(n==0){
-            a.get(jList1.getSelectedIndex()).remove(jXTable1.getSelectedRow());
+            acquaintanceList.get(jList1.getSelectedIndex()).remove(jXTable1.getSelectedRow());
             JOptionPane.showMessageDialog(mg, "Successfully Deleted");
             mg.setUpTableData();
         }
@@ -692,10 +693,10 @@ public class MUI extends javax.swing.JFrame {
     public void runn(){
         String s = "<html> <b>Search results:</b><br>Found!<br><br>Acquaintance Details: <br>";
         int j = 0;
-        for(int i = 0; i < a.get(0).size(); i++){
-            if(a.get(0).get(i).getName().matches(str)){
+        for(int i = 0; i < acquaintanceList.get(0).size(); i++){
+            if(acquaintanceList.get(0).get(i).getName().matches(str)){
                 j++;
-                PersonalFriends perF = (PersonalFriends)a.get(0).get(i);
+                PersonalFriends perF = (PersonalFriends)acquaintanceList.get(0).get(i);
                 if(j==1){
                     s = s.concat("<br>I. Personal Friends<br>");
                 }
@@ -708,10 +709,10 @@ public class MUI extends javax.swing.JFrame {
             }
         }
         j = 0;
-        for(int i = 0; i < a.get(1).size(); i++){
-            if(a.get(1).get(i).getName().matches(str)){
+        for(int i = 0; i < acquaintanceList.get(1).size(); i++){
+            if(acquaintanceList.get(1).get(i).getName().matches(str)){
                 j++;
-                Relatives rel = (Relatives)a.get(1).get(i);
+                Relatives rel = (Relatives)acquaintanceList.get(1).get(i);
                 if(j==1){
                     s = s.concat("<br>II. Relatives<br>");
                 }
@@ -723,10 +724,10 @@ public class MUI extends javax.swing.JFrame {
             }
         }
         j = 0;
-        for(int i = 0; i < a.get(2).size(); i++){
-            if(a.get(2).get(i).getName().matches(str)){
+        for(int i = 0; i < acquaintanceList.get(2).size(); i++){
+            if(acquaintanceList.get(2).get(i).getName().matches(str)){
                 j++;
-                ProfessionalFriends proF = (ProfessionalFriends)a.get(2).get(i);
+                ProfessionalFriends proF = (ProfessionalFriends)acquaintanceList.get(2).get(i);
                 if(j==1){
                     s = s.concat("<br>III. Professional Friends<br>");
                 }
@@ -737,10 +738,10 @@ public class MUI extends javax.swing.JFrame {
             }
         }
         j = 0;
-        for(int i = 0; i < a.get(3).size(); i++){
-            if(a.get(3).get(i).getName().matches(str)){
+        for(int i = 0; i < acquaintanceList.get(3).size(); i++){
+            if(acquaintanceList.get(3).get(i).getName().matches(str)){
                 j++;
-                CasualAcquaintances ca = (CasualAcquaintances)a.get(3).get(i);
+                CasualAcquaintances ca = (CasualAcquaintances)acquaintanceList.get(3).get(i);
                 if(j==1){
                     s = s.concat("<br>IV. Casual Acquaintances<br>");
                 }
@@ -761,14 +762,45 @@ public class MUI extends javax.swing.JFrame {
         details.setText(s);
     }
     
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
+        addDataFromFile();
+    }//GEN-LAST:event_jButton7ActionPerformed
+    
+    private void addDataFromFile(){
+        //GEN-FIRST:event_jButton7ActionPerformed
         JFileChooser fileChooser = new JFileChooser();
+        ArrayList<ArrayList<Acquaintances>> fromFileData;
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             try {
-                temp = (ArrayList<ArrayList<Acquaintances>>)SerializationUtil.deserialize(selectedFile);
+                fromFileData = (ArrayList<ArrayList<Acquaintances>>)SerializationUtil.deserialize(selectedFile);
+                
+                //to check if the data existed or not
+                for(int i=0; i<4 ; i++){
+                    DataIterator dataIterator = new DataIterator(acquaintanceList.get(i));
+                    System.out.println("1:" + acquaintanceList.get(i).size());
+                    System.out.println("1:" + fromFileData.get(i).size());
+                    
+                    while (dataIterator.hasNext()){
+                        boolean exists = false;
+                        Acquaintances current = dataIterator.next();
+                        Acquaintances temp = null;
+                        DataIterator newDataIterator = new DataIterator(fromFileData.get(i));
+                        while(newDataIterator.hasNext()){
+                            temp = newDataIterator.next();
+                            if(temp.equals(current)){
+                                exists = true;
+                            }
+                        }
+                        if(!exists){
+                            acquaintanceList.get(i).add(temp);
+                        }
+                    }
+                    System.out.println("2:" + acquaintanceList.get(i).size());
+                    System.out.println("2:" + fromFileData.get(i).size());
+                }
             }
             catch (ClassNotFoundException | IOException e) {
                 JOptionPane.showMessageDialog(mg, "Error");
@@ -778,18 +810,8 @@ public class MUI extends javax.swing.JFrame {
         else{
             return;
         }
-        try{
-            for(int i = 0; i < 4; i++){
-                for(int j = 0; j < temp.get(i).size(); j++){
-                    a.get(i).add(temp.get(i).get(j));
-                }
-            }
-        }
-        catch(Exception e){
-
-        }
         mg.setUpTableData();
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         String s = (String)JOptionPane.showInputDialog(
@@ -819,7 +841,7 @@ public class MUI extends javax.swing.JFrame {
             return;
         }
         try {
-            SerializationUtil.serialize(a, s);
+            SerializationUtil.serialize(acquaintanceList, s);
         } catch (IOException e) {
             return;
         }
@@ -904,7 +926,7 @@ public class MUI extends javax.swing.JFrame {
                 if(flag)
                     perF = new PersonalFriends();
                 else
-                    perF = (PersonalFriends)a.get(x).get(num);
+                    perF = (PersonalFriends)acquaintanceList.get(x).get(num);
                 perF.setName(Name);
                 perF.setMobileNo(Mobile);
                 perF.setEmail(Email);
@@ -912,7 +934,7 @@ public class MUI extends javax.swing.JFrame {
                 perF.setAContext(Two);
                 perF.setADate(Three);
                 if(flag)
-                    a.get(x).add(perF);
+                    acquaintanceList.get(x).add(perF);
                     //this.a.get(x).add(perF);
                 break;
             case 1: //rel
@@ -936,14 +958,14 @@ public class MUI extends javax.swing.JFrame {
                 if(flag)
                     rel = new Relatives();
                 else
-                    rel = (Relatives)a.get(x).get(num);
+                    rel = (Relatives)acquaintanceList.get(x).get(num);
                 rel.setName(Name);
                 rel.setMobileNo(Mobile);
                 rel.setEmail(Email);
                 rel.setBDate(One);
                 rel.setLDate(Two);
                 if(flag)
-                    a.get(x).add(rel);
+                    acquaintanceList.get(x).add(rel);
                 break;
             case 2: //proF
                 One = one.getText();
@@ -955,13 +977,13 @@ public class MUI extends javax.swing.JFrame {
                 if(flag)
                     proF = new ProfessionalFriends();
                 else
-                    proF = (ProfessionalFriends)a.get(x).get(num);
+                    proF = (ProfessionalFriends)acquaintanceList.get(x).get(num);
                 proF.setName(Name);
                 proF.setMobileNo(Mobile);
                 proF.setEmail(Email);
                 proF.setCommonInterests(One);
                 if(flag)
-                    a.get(x).add(proF);
+                    acquaintanceList.get(x).add(proF);
                 break;
                 case 3: //ca
                 One = one.getText();
@@ -983,7 +1005,7 @@ public class MUI extends javax.swing.JFrame {
                 if(flag)
                     ca = new CasualAcquaintances();
                 else
-                    ca = (CasualAcquaintances)a.get(x).get(num);
+                    ca = (CasualAcquaintances)acquaintanceList.get(x).get(num);
                 ca.setName(Name);
                 ca.setMobileNo(Mobile);
                 ca.setEmail(Email);
@@ -991,7 +1013,7 @@ public class MUI extends javax.swing.JFrame {
                 ca.setCircumstances(Two);
                 ca.setOtherInfo(Three);
                 if(flag)
-                    a.get(x).add(ca);
+                    acquaintanceList.get(x).add(ca);
                 break;
             default:
                 break;
@@ -1082,4 +1104,32 @@ public class MUI extends javax.swing.JFrame {
     private javax.swing.JTextArea three;
     private javax.swing.JTextArea two;
     // End of variables declaration//GEN-END:variables
+}
+
+class DataIterator implements Iterator<Acquaintances>{
+    int current = 0;
+    ArrayList<Acquaintances> list;
+    
+    
+    public DataIterator (ArrayList list){
+        this.list = list;
+    }
+    
+    @Override
+    public boolean hasNext() {
+        if(current >= list.size() || list.get(current)==null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    @Override
+    public Acquaintances next() {
+        Acquaintances acq =  list.get(current);
+        current+=1;
+        return acq;
+    }
+    
 }
