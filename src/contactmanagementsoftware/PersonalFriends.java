@@ -87,4 +87,27 @@ public class PersonalFriends extends Acquaintances implements Serializable{
         this.setAContext(two);
         this.setADate(three);
     }
+    
+    public boolean isEqual(PersonalFriends pf){
+        boolean equal = true;
+        if(!this.getName().equals(pf.getName())){
+            equal = false;
+        }
+        if(!this.getMobileNo().equals(pf.getMobileNo())){
+            equal = false;
+        }
+        if(!this.getEmail().equals(pf.getEmail())){
+            equal = false;
+        }
+        if(!this.getEvents().equals(pf.getEvents())){
+            equal = false;
+        }
+        if(!this.getAContext().equals(pf.getAContext())){
+            equal = false;
+        }
+        if(!this.getADate().equals(pf.getADate())){
+            equal = false;
+        }
+        return equal;
+    }
 }

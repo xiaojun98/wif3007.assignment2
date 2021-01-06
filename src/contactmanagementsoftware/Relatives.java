@@ -65,4 +65,25 @@ public class Relatives extends Acquaintances implements Serializable{
         this.setBDate(one);
         this.setLDate(two);
     }
+    
+    
+    public boolean isEqual(Relatives rel){
+        boolean equal = true;
+        if(!this.getName().equals(rel.getName())){
+            equal = false;
+        }
+        if(!this.getMobileNo().equals(rel.getMobileNo())){
+            equal = false;
+        }
+        if(!this.getEmail().equals(rel.getEmail())){
+            equal = false;
+        }
+        if(!this.getBDate().equals(rel.getBDate())){
+            equal = false;
+        }
+        if(!this.getLDate().equals(rel.getLDate())){
+            equal = false;
+        }
+        return equal;
+    }
 }

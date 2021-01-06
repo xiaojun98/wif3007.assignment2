@@ -91,4 +91,27 @@ public class CasualAcquaintances extends Acquaintances implements Serializable{
         this.setCircumstances(two);
         this.setOtherInfo(three);
     }
+    
+    public boolean isEqual(CasualAcquaintances ca){
+        boolean equal = true;
+        if(!this.getName().equals(ca.getName())){
+            equal = false;
+        }
+        if(!this.getMobileNo().equals(ca.getMobileNo())){
+            equal = false;
+        }
+        if(!this.getEmail().equals(ca.getEmail())){
+            equal = false;
+        }
+        if(!this.getWhenWhere().equals(ca.getWhenWhere())){
+            equal = false;
+        }
+        if(!this.getCircumstances().equals(ca.getCircumstances())){
+            equal = false;
+        }
+        if(!this.getOtherInfo().equals(ca.getOtherInfo())){
+            equal = false;
+        }
+        return equal;
+    }
 }

@@ -60,4 +60,21 @@ public class ProfessionalFriends extends Acquaintances implements Serializable{
     public void checkExtra(String one, String two, String three){
         this.setCommonInterests(one);
     }
+    
+    public boolean isEqual(ProfessionalFriends pf){
+        boolean equal = true;
+        if(!this.getName().equals(pf.getName())){
+            equal = false;
+        }
+        if(!this.getMobileNo().equals(pf.getMobileNo())){
+            equal = false;
+        }
+        if(!this.getEmail().equals(pf.getEmail())){
+            equal = false;
+        }
+        if(!this.getCommonInterests().equals(pf.getCommonInterests())){
+            equal = false;
+        }
+        return equal;
+    }
 }

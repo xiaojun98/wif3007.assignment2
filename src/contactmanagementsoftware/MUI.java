@@ -776,39 +776,31 @@ public class MUI extends javax.swing.JFrame {
             File selectedFile = fileChooser.getSelectedFile();
             try {
                 fromFileData = (ArrayList<ArrayList<Acquaintances>>)SerializationUtil.deserialize(selectedFile);
-                
                 //to check if the data existed or not
                 for(int i=0; i<4 ; i++){
                     DataIterator newDataIterator = new DataIterator(fromFileData.get(i));
-//                    DataIterator dataIterator = new DataIterator(acquaintanceList.get(i));
-                    System.out.println("1:" + acquaintanceList.get(i).size());
-                    System.out.println("1:" + fromFileData.get(i).size());
                     
                     while (newDataIterator.hasNext()){
-//                    while (dataIterator.hasNext()){
                         boolean exists = false;
-                        Acquaintances current = (Acquaintances)newDataIterator.next();
-//                        Acquaintances current = (Acquaintances)dataIterator.next();
+                        Acquaintances current = newDataIterator.next();
                         Acquaintances temp = null;
                         DataIterator dataIterator = new DataIterator(acquaintanceList.get(i));
-//                        DataIterator newDataIterator = new DataIterator(fromFileData.get(i));
                         while (dataIterator.hasNext()){
-//                        while(newDataIterator.hasNext()){
-//                            temp = (Acquaintances)newDataIterator.next();
-                            temp = (Acquaintances)dataIterator.next();
-                            if(temp.equals(current)){
-                                exists = true;
+                            temp = dataIterator.next();
+                            if(temp.getClass().equals(current.getClass())){
+                                if(temp.isEqual(current)){
+                                    exists = true;
+                                }
                             }
                         }
                         if(!exists){
                             acquaintanceList.get(i).add(current);
                         }
                     }
-                    System.out.println("2:" + acquaintanceList.get(i).size());
-                    System.out.println("2:" + fromFileData.get(i).size());
                 }
             }
             catch (ClassNotFoundException | IOException e) {
+                System.out.println(e.getMessage());
                 JOptionPane.showMessageDialog(mg, "Error");
                 return;
             }
@@ -966,7 +958,7 @@ public class MUI extends javax.swing.JFrame {
                 if(flag)
                     rel = new Relatives();
                 else
-                    rel = (Relatives)a.get(x).get(num);
+                    rel = (Relatives)acquaintanceList.get(x).get(num);
                 rel.newAcquaintances(Name, Email, Mobile, One, Two, Three);
                 if(flag)
                     acquaintanceList.get(x).add(rel);
@@ -980,7 +972,7 @@ public class MUI extends javax.swing.JFrame {
                 if(flag)
                     proF = new ProfessionalFriends();
                 else
-                    proF = (ProfessionalFriends)a.get(x).get(num);
+                    proF = (ProfessionalFriends)acquaintanceList.get(x).get(num);
                 proF.newAcquaintances(Name, Email, Mobile, One, Two, Three);
                 if(flag)
                     acquaintanceList.get(x).add(proF);
@@ -1002,7 +994,7 @@ public class MUI extends javax.swing.JFrame {
                 if(flag)
                     ca = new CasualAcquaintances();
                 else
-                    ca = (CasualAcquaintances)a.get(x).get(num);
+                    ca = (CasualAcquaintances)acquaintanceList.get(x).get(num);
                 ca.newAcquaintances(Name, Email, Mobile, One, Two, Three);
                 if(flag)
                     acquaintanceList.get(x).add(ca);

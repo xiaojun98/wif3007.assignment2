@@ -80,4 +80,25 @@ public class Acquaintances implements Serializable{
     public void checkExtra(String one, String two, String three){
         
     }
+    
+    public boolean isEqual(Acquaintances a){
+        boolean equal = false;
+        if(a instanceof Relatives){
+            Relatives castThis = (Relatives)this;
+            equal = castThis.isEqual((Relatives)a);
+        }
+        else if (a instanceof CasualAcquaintances){
+            CasualAcquaintances castThis = (CasualAcquaintances)this;
+            equal = castThis.isEqual((CasualAcquaintances)a);
+        }
+        else if (a instanceof PersonalFriends){
+            PersonalFriends castThis = (PersonalFriends)this;
+            equal = castThis.isEqual((PersonalFriends)a);
+        }
+        else if (a instanceof ProfessionalFriends){
+            ProfessionalFriends castThis = (ProfessionalFriends)this;
+            equal = castThis.isEqual((ProfessionalFriends)a);
+        }
+        return equal;
+    }
 }
