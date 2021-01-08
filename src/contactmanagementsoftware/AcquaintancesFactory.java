@@ -10,20 +10,31 @@ package contactmanagementsoftware;
  * @author thechee
  */
 public class AcquaintancesFactory implements AcquaintancesAbstractFactory{
+    
+    private static AcquaintancesFactory instance;
+    
+    public static AcquaintancesFactory getInstance() {
+        if(instance == null) {
+            instance = new AcquaintancesFactory();
+        }
+        return instance;
+    }
+    
+    private AcquaintancesFactory() {}
 
     @Override
-    public Acquaintances createAcquaintance(int type) {
+    public Acquaintances createAcquaintance(String type) {
         switch(type) {
-            case 0:
+            case "Personal":
                 return new PersonalFriends();
-            case 1:
+            case "Relative":
                 return new Relatives();
-            case 2:
+            case "Professional":
                 return new ProfessionalFriends();
-            case 3:
+            case "Casual":
                 return new CasualAcquaintances();
         }
-        throw new UnsupportedOperationException("Not supported type (0-3)."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported type - ".concat(type)); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
