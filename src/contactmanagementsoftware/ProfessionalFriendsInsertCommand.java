@@ -46,7 +46,7 @@ public class ProfessionalFriendsInsertCommand implements Command {
     @Override
     public void execute() {
         if(commonInterests.isEmpty() || commonInterests.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
         contact.newAcquaintances(name, email, mobile, commonInterests, "", "");

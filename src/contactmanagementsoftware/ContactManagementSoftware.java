@@ -14,7 +14,7 @@ public class ContactManagementSoftware implements Serializable{
     
     public static void main(String[] args) {
 //        mg = new MUI();
-        mg = MUI.getInstance();
+        mg = MUI.getOccurrence();
         a.add(perF1);
         a.add(rel1);
         a.add(proF1);

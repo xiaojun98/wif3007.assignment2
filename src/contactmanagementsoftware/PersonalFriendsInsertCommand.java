@@ -52,18 +52,18 @@ public class PersonalFriendsInsertCommand implements Command {
     @Override
     public void execute() {
         if(events.isEmpty() || events.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
         if(aContext.isEmpty() || aContext.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
-        if(!MUI.getInstance().validDate(aDate)){
+        if(!MUI.getOccurrence().validDate(aDate)){
             throw new UnsupportedOperationException("Enter valid date");
         }
         if(aDate.isEmpty() || aDate.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
         contact.newAcquaintances(name, email, mobile, events, aContext, aDate);

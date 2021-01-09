@@ -48,18 +48,18 @@ public class RelativesInsertCommand implements Command {
 
     @Override
     public void execute() {
-        if(!MUI.getInstance().validDate(BDate)){
+        if(!MUI.getOccurrence().validDate(BDate)){
             throw new UnsupportedOperationException("Enter valid date");
         }
         if(BDate.isEmpty() || BDate.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
-        if(!MUI.getInstance().validDate(LDate)){
+        if(!MUI.getOccurrence().validDate(LDate)){
             throw new UnsupportedOperationException("Enter valid date");
         }
         if(LDate.isEmpty() || LDate.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
         contact.newAcquaintances(name, email, mobile, BDate, LDate, "");

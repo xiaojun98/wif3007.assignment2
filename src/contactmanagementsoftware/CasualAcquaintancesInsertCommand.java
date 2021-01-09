@@ -53,15 +53,15 @@ public class CasualAcquaintancesInsertCommand implements Command {
     public void execute() {
         
         if(whenWhere.isEmpty() || whenWhere.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
         if(circumstances.isEmpty() || circumstances.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
         if(otherInfo.isEmpty() || otherInfo.length() > 300){
-            JOptionPane.showMessageDialog(MUI.getInstance(), "Enter a valid value ( 1 to 300 chars)");
+            JOptionPane.showMessageDialog(MUI.getOccurrence(), "Enter a valid value ( 1 to 300 chars)");
             return;
         }
         contact.newAcquaintances(name, email, mobile, whenWhere, circumstances, otherInfo);

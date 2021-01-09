@@ -65,17 +65,6 @@ public class MUI extends javax.swing.JFrame {
         return single_occurrence;
     }
     
-    
-    public static MUI getInstance() {
-        if(mg == null) {
-            synchronized (MUI.class){
-                if(mg == null)
-                    mg = new MUI();
-            }
-        }
-        return mg;
-    }
-    
     // wont be use since singleton exist
     public void setMg(MUI mg) {
         this.mg = mg;
@@ -1003,7 +992,7 @@ public class MUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MUI.getInstance().setVisible(true);
+                MUI.getOccurrence().setVisible(true);
             }
         });
     }
